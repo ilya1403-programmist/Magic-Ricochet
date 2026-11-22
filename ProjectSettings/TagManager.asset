@@ -8,6 +8,7 @@ TagManager:
   - Enemies
   - BackWallForDestroingBalls
   - WallsForRicochet
+  - WallForSkeletMoving
   layers:
   - Default
   - TransparentFX

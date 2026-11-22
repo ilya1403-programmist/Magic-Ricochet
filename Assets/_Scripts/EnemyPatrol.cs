@@ -15,7 +15,8 @@ public class EnemyPatrol : MonoBehaviour
     
     [Header("Movement Settings")]
     public float speed = 2f;
-    public float distance = 3f;
+    //public float distance = 3f;
+    private int _direction = 1;
 
     [Header("Visual Assets")]
     [SerializeField] private Material goldMaterial; 
@@ -80,9 +81,13 @@ public class EnemyPatrol : MonoBehaviour
     {
         if (isDead) return;
 
+
+
+
         // Синусоидальное патрулирование (независимо от физики)
-        float newX = _startPos.x + Mathf.Sin(Time.time * speed) * distance;
-        transform.position = new Vector3(newX, transform.position.y, transform.position.z);
+        transform.Translate(Vector3.right * speed * 2 * _direction * Time.deltaTime);   //Переделано на "движение пока не встретят триггер"
+        //float newX = _startPos.x + Mathf.Sin(Time.time * speed) * distance;
+        //transform.position = new Vector3(newX, transform.position.y, transform.position.z);
 
 
 
@@ -99,6 +104,16 @@ public class EnemyPatrol : MonoBehaviour
         }
 
     }
+
+    //Для корректной работы лучше использовать OnTriggerEnter отдельно
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("WallForSkeletMoving"))
+        {
+            _direction *= -1;
+        }
+    }
+
 
     private void OnCollisionEnter(Collision collision)
     {
